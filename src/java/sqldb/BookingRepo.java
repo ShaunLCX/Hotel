@@ -67,6 +67,7 @@ public class BookingRepo {
                 if(bookingId.next())
                 {
                      last_bookingId = bookingId.getInt(1);
+                     System.out.print("ThE bOOKING ID :" +last_bookingId);
                 }
             if(last_bookingId!=0){
              //STEP 4: Execute a query
@@ -75,7 +76,7 @@ public class BookingRepo {
             String selectSql;
             selectSql = "select hotelorder.customer.CustomerName,hotelorder.hotel.HotelName,hotelorder.room.RoomName,CheckInDate,CheckOutDate " +
                         "from hotelorder.booking " +
-                        "INNER JOIN hotelorder.customer ON  hotelorder.booking.BookingId= hotelorder.customer.CustomerID " +
+                        "INNER JOIN hotelorder.customer ON  hotelorder.booking.CustomerID= hotelorder.customer.CustomerID " +
                         "INNER JOIN hotelorder.hotel ON hotelorder.booking.HotelID = hotelorder.hotel.HotelID " +
                         "INNER JOIN hotelorder.room ON hotelorder.booking.RoomID = hotelorder.room.RoomID where hotelorder.booking.BookingId="+last_bookingId;
             ResultSet rs = stmt.executeQuery(selectSql);
@@ -92,6 +93,7 @@ public class BookingRepo {
             }
             rs.close();
             stmt.close();
+            preparedStmt.close();
             conn.close();
             
             return cusOrder;
