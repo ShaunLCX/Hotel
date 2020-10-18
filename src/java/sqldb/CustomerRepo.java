@@ -21,7 +21,7 @@ public class CustomerRepo {
 
     
      static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/testing?autoReconnect=true&useSSL=false";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/hotelorder?autoReconnect=true&useSSL=false";
 
     //  Database credentials
     static final String USER = "root";
@@ -44,7 +44,7 @@ public class CustomerRepo {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM testing.Customer ";
+            sql = "SELECT * FROM hotelorder.Customer ";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set

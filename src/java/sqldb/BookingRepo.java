@@ -24,7 +24,7 @@ import ViewModel.CustomerOrder;
 public class BookingRepo {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/testing?autoReconnect=true&useSSL=false";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/hotelorder?autoReconnect=true&useSSL=false";
 
     //  Database credentials
     static final String USER = "root";
@@ -47,13 +47,13 @@ public class BookingRepo {
             stmt = conn.createStatement();
             String sql;
 
-            String query = " Insert Into testing.booking(HotelID, CustomerID, RoomID, CheckInDate, CheckOutDate,NumberOfGuest,AmountPaid)"
+            String query = " Insert Into hotelorder.booking(HotelID, CustomerID, RoomID, CheckInDate, CheckOutDate,NumberOfGuest,AmountPaid)"
                     + " values (?, ?, ?, ?, ?,?,?)";
              Calendar calendar = Calendar.getInstance();
              java.sql.Date checkinDate = new java.sql.Date(newBooking.CheckInDate.getTime());
              java.sql.Date checkOutDate = new java.sql.Date(newBooking.CheckOutDate.getTime());
             // create the mysql insert preparedstatement
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStmt.setInt(1, newBooking.HotelID);
             preparedStmt.setInt(2, newBooking.CustomerID);
             preparedStmt.setInt(3, newBooking.RoomID);
@@ -62,16 +62,22 @@ public class BookingRepo {
             preparedStmt.setInt(6, newBooking.NumberOfGuest);
             preparedStmt.setDouble(7, newBooking.AmountPaid);
             preparedStmt.execute();
-            
+            int last_bookingId=0;
+            ResultSet bookingId = preparedStmt.getGeneratedKeys();
+                if(bookingId.next())
+                {
+                     last_bookingId = bookingId.getInt(1);
+                }
+            if(last_bookingId!=0){
              //STEP 4: Execute a query
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String selectSql;
-            selectSql = "select testing.customer.CustomerName,testing.hotel.HotelName,testing.room.RoomName,CheckInDate,CheckOutDate " +
-                        "from testing.booking " +
-                        "INNER JOIN testing.customer ON  testing.booking.BookingId= testing.customer.CustomerID " +
-                        "INNER JOIN testing.hotel ON testing.booking.HotelID = testing.hotel.HotelID " +
-                        "INNER JOIN testing.room ON testing.booking.RoomID = testing.room.RoomID";
+            selectSql = "select hotelorder.customer.CustomerName,hotelorder.hotel.HotelName,hotelorder.room.RoomName,CheckInDate,CheckOutDate " +
+                        "from hotelorder.booking " +
+                        "INNER JOIN hotelorder.customer ON  hotelorder.booking.BookingId= hotelorder.customer.CustomerID " +
+                        "INNER JOIN hotelorder.hotel ON hotelorder.booking.HotelID = hotelorder.hotel.HotelID " +
+                        "INNER JOIN hotelorder.room ON hotelorder.booking.RoomID = hotelorder.room.RoomID where hotelorder.booking.BookingId="+last_bookingId;
             ResultSet rs = stmt.executeQuery(selectSql);
 
             //STEP 5: Extract data from result set
@@ -87,7 +93,9 @@ public class BookingRepo {
             rs.close();
             stmt.close();
             conn.close();
+            
             return cusOrder;
+            }
         } catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
