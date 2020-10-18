@@ -6,11 +6,15 @@
 package model;
 
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author ShaunLee
  */
+@XmlRootElement
 public class Booking {
     
     public int BookingId;
@@ -21,6 +25,21 @@ public class Booking {
     public Date CheckOutDate;
     public int NumberOfGuest;
     public double AmountPaid;
+
+    public Booking() {
+    }
+
+
+    public Booking(int HotelID, int CustomerID, int RoomID, int NumberOfGuest, double AmountPaid) {
+        this.HotelID = HotelID;
+        this.CustomerID = CustomerID;
+        this.RoomID = RoomID;
+        this.NumberOfGuest = NumberOfGuest;
+        this.AmountPaid = AmountPaid;
+    }
+    
+    
+    
 
     public int getBookingId() {
         return BookingId;

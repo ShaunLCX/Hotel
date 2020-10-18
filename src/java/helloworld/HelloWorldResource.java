@@ -52,6 +52,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.core.MediaType;
+import model.Booking;
+import sqldb.BookingRepo;
 
 /**
  * REST Web Service
@@ -80,9 +84,12 @@ public class HelloWorldResource {
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */
-    @PUT
-    @Consumes("text/plain")
-    public void setName(String content) {
-        nameStorage.setName(content);
+    @POST
+    @Path("/testApi")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+    public String Booking(Booking booking)throws Exception {
+      BookingRepo.newOrder(booking);
+      return "Sucess " +booking.CheckInDate;
     }
 }
