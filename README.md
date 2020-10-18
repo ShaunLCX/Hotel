@@ -8,7 +8,7 @@ Hotel Create Order Api
 #################################################################
 1. Clone the project 
 2. Open Netbean, go to Team tab and select Remote and select clone
-3. Copy this url to close the project -->   https://github.com/ShaunLCX/Hotel and select master branch
+3. Copy this url to clone the project -->   https://github.com/ShaunLCX/Hotel and select master branch
 4. Open MYSql Workbench
 5. Open the folder (sqlscript) to run the sql script to create the db
    1.1 First, run the createDBScript
@@ -30,6 +30,12 @@ Hotel Create Order Api
         "AmountPaid" : 1800.00
  }
  
+ *******************************************************************************\
+ Error that may occur
+ 1. If you see the error HTTP Status 500 - Internal Server Error during firing the create order api
+    please fire the api again to create the order
+ 2. GlassFish server 4.1.1 may have error on the some jar files
+    if does please replace the org.eclipse.persistence.moxy.jar file in the modules ======> glassfish-4.1.1\glassfish\modules
 
      
 
