@@ -1,5 +1,5 @@
-create database if not exists testing;
-use testing;
+create database if not exists hotelorder;
+use hotelorder;
 CREATE TABLE Customer (
     CustomerID int NOT NULL AUTO_INCREMENT ,
     CustomerName nvarchar(255),
